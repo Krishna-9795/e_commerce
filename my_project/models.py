@@ -49,5 +49,5 @@ class Review(db.Model):
     review_id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, ForeignKey=True('users.user_id'), nullable=False)
     product_id = db.Column(db.Integer, ForeignKey=True('products.product_id'), nullable=False)
-    rating = db.Column(db.Integer, nullable=False)
+    rating = db.Column(db.Float, nullable=False)
     review_text = db.Column(db.String)
