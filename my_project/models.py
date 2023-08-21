@@ -5,49 +5,117 @@ db=SQLAlchemy()
 
 class user(db.Model):
     user_id = db.Column(db.Integer , primary_key =True ,unique=True)
-    name = db.Column(db.String(80) , nullable= False)
+    username=db.Column(db.String(80),nullable=False)
+    first_name = db.Column(db.String(80) , nullable= False)
+    last_name = db.Column(db.String(80) , nullable= False)
     email = db.Column(db.String(80) , nullable= False, unique = True)
     password = db.Column(db.String(80))
     wallet_balance = db.Column(db.Integer)
-    created_on = db.Column(db.DateTime , default= datetime.utcnow)
+    registration_date = db.Column(db.DateTime , default= datetime.utcnow)
     phone = db.Column(db.BigInteger)
-    #status = db.Column(db.Boolean , default = True)
+    country=db.Column(db.String ,nullable=False)
+    last_login_date=db.Column(db.Datetime)
+#   otp_secret = db.Column(db.String)  # Secret key for generating OTPs
+#    use_otp = db.Column(db.Boolean, default=False)  # Flag to indicate if OTP is enabled
     
-class product(db.Model):
+class products(db.Model):
     product_id=db.Column(db.Integer , primary_key =True )
     name= db.Column(db.String(80) , nullable= False)
     description=db.Column(db.String(80))
     price=db.Column(db.Float, nullable=False)
+    discount_price = db.Column(db.Float)
     stock_quantity=db.Column(db.Integer, nullable=False)
     category_id = db.Column(db.Integer, ForeignKey=True('categories.category_id'), nullable=False)
     image_url=db.Column(db.String,nullable=False)
-class category(db.Model):
+    manufacturer_id = db.Column(db.Integer, ForeignKey=True('manufacturers.manufacturer_id'))
+    creation_date=db.Column(db.String)
+    average_rating = db.Column(db.Float)
+    total_ratings = db.Column(db.Integer)
+    
+class categories(db.Model):
     category_id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False)
+    
+class  manufacturers(db.Model):
+    manufacturer_id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String)
+    country= db.Column(db.String)
+    
 
-class order_table(db.Model):
+class carts(db.Model):
+    cart_id =db.Column(db.Integer,primary_key=True)
+    user_id =db.Column(db.Integer,foreign_key=True('user.user_id'))
+    creation_date=db.Column(db.DateTime)
+    
+class cart_items(db.Model):
+    cart_item_id=db.Column(db.Integer,primary_key=True)
+    cart_id=db.Column(db.Integer,foreign_key=True('cart_table.cart_id'))
+    product_id=db.Column(db.Integer,foreign_key=True('product.product_id.user_id'))
+    quantity=db.Column(db.Integer)
+    
+
+    
+class orders(db.Model):
     order_id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, ForeignKey=True('users.user_id'), nullable=False)
     order_date = db.Column(db.DateTime, nullable=False)
     total_amount = db.Column(db.Float, nullable=False)
+    order_status= db.Column(db.String)
+    shipping_address=db.Column(db.String)
+    payment_method=db.Column(db.String)
+    coupon_id=db.Column(db.Integer,ForeignKey=True('Coupon.coupon_id'),nullable=True)
 
-class OrderItem(db.Model):
+class order_items(db.Model):
     order_item_id = db.Column(db.Integer, primary_key=True)
     order_id = db.Column(db.Integer, ForeignKey=True('orders.order_id'), nullable=False)
     product_id = db.Column(db.Integer, ForeignKey=True('products.product_id'), nullable=False)
     quantity = db.Column(db.Integer, nullable=False)
     unit_price = db.Column(db.Float, nullable=False)
     
-class Payment(db.Model):
+class payments(db.Model):
     payment_id = db.Column(db.Integer, primary_key=True)
     order_id = db.Column(db.Integer, ForeignKey=True('orders.order_id'), nullable=False)
     payment_date = db.Column(db.DateTime, nullable=False)
     payment_amount = db.Column(db.Float, nullable=False)
     payment_status = db.Column(db.Boolean, nullable=False)
+    payment_method=db.Column(db.String)
     
-class Review(db.Model):
+class reviews(db.Model):
     review_id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, ForeignKey=True('users.user_id'), nullable=False)
     product_id = db.Column(db.Integer, ForeignKey=True('products.product_id'), nullable=False)
     rating = db.Column(db.Float, nullable=False)
     review_text = db.Column(db.String)
+    review_date = db.Column(db.DateTime)
+
+class addresses(db.Model): 
+    address_id= db.Column(db.Integer, primary_key=True)
+    user_id= db.Column(db.Integer,Foreign_Key=True('user.user_id'))
+    street_address= db.Column(db.String)
+    city= db.Column(db.String)
+    state= db.Column(db.String)
+    postal_code= db.Column(db.Integer)
+    country= db.Column(db.String)
+    is_default= db.Column(db.Boolean)
+    
+class shipping_addresses(db.Model): 
+    address_id= db.Column(db.Integer, primary_key=True)
+    user_id= db.Column(db.Integer,Foreign_Key=True('user.user_id'))
+    street_address= db.Column(db.String)
+    city= db.Column(db.String)
+    state= db.Column(db.String)
+    postal_code= db.Column(db.Integer)
+    country= db.Column(db.String) 
+    
+class coupons(db.Model):
+    coupon_id= db.Column(db.Integer, primary_key=True)
+    code=db.Column(db.String, unique=True, nullable=False)
+    coupon_amount= db.Column(db.Float, nullable=False)
+    coupon_expiration_date= db.Column(db.DateTime)
+    
+class transactions(db.Model):
+    transaction_id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, ForeignKey=True('user.user_id'), nullable=False)
+    transaction_date = db.Column(db.DateTime, default=datetime.utcnow)
+    transaction_amount =db.Column(db.Float, nullable=False)
+    transaction_type = db.Column(db.String, nullable=False)
