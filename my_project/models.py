@@ -15,15 +15,12 @@ class users(db.Model):
     phone = db.Column(db.BigInteger)
     country=db.Column(db.String ,nullable=False)
     last_login_date=db.Column(db.Datetime)
-#   otp_secret = db.Column(db.String)  # Secret key for generating OTPs
-#    use_otp = db.Column(db.Boolean, default=False)  # Flag to indicate if OTP is enabled
-    
+
 class products(db.Model):
     product_id=db.Column(db.Integer , primary_key =True )
     name= db.Column(db.String(80) , nullable= False)
     description=db.Column(db.String(80))
     price=db.Column(db.Float, nullable=False)
-    discount_price = db.Column(db.Float)
     stock_quantity=db.Column(db.Integer, nullable=False)
     category_id = db.Column(db.Integer, ForeignKey=True('categories.category_id'), nullable=False)
     image_url=db.Column(db.String,nullable=False)
@@ -69,17 +66,39 @@ class order_items(db.Model):
     order_item_id = db.Column(db.Integer, primary_key=True)
     order_id = db.Column(db.Integer, ForeignKey=True('orders.order_id'), nullable=False)
     product_id = db.Column(db.Integer, ForeignKey=True('products.product_id'), nullable=False)
-    quantity = db.Column(db.Integer, nullable=False)
     unit_price = db.Column(db.Float, nullable=False)
-    
+    order_quantity = db.Column(db.Integer, nullable=False)
+    discount_percentage=db.Column(db.Float)
+    total_amount= db.Column(db.Float, nullable=False)
 class payments(db.Model):
     payment_id = db.Column(db.Integer, primary_key=True)
     order_id = db.Column(db.Integer, ForeignKey=True('orders.order_id'), nullable=False)
     payment_date = db.Column(db.DateTime, nullable=False)
     payment_amount = db.Column(db.Float, nullable=False)
-    payment_status = db.Column(db.Boolean, nullable=False)
+    payment_status = db.Column(db.String, nullable=False)
     payment_method=db.Column(db.String)
     
+class payment_methods(db.Model):
+    payment_method_id=	db.Column(db.Integer, primary_key=True)
+    user_id= db.Column(db.Integer, ForeignKey=True('users.user_id'), nullable=False)
+    card_number=db.Column(db.String)
+    expiration_date=db.Column(db.String)
+    cvv=db.Column(db.String)
+
+class product_variants():
+    variant_id=	db.Column(db.Integer, primary_key=True)
+    product_id= db.Column(db.Integer, ForeignKey=True('products.product_id'), nullable=False)
+    color=db.Column(db.String)
+    size=db.Column(db.Float)
+    material= db.Column(db.String)
+    other_features=db.Column(db.String)
+    specification=db.Column(db.String)
+    image_url=db.Column(db.String)
+    price=	db.Column(db.Float)
+    quantity=db.Column(db.Float)
+    created_at=db.Column(db.DateTime, default= datetime.utcnow)
+
+	
 class reviews(db.Model):
     review_id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, ForeignKey=True('users.user_id'), nullable=False)
@@ -119,3 +138,6 @@ class transactions(db.Model):
     transaction_date = db.Column(db.DateTime, default=datetime.utcnow)
     transaction_amount =db.Column(db.Float, nullable=False)
     transaction_type = db.Column(db.String, nullable=False)
+    
+    
+
