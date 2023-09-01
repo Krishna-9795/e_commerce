@@ -1,6 +1,7 @@
 from db import db
 from datetime import datetime
-class users(db.Model):
+class Users(db.Model):
+    __tablename__ = 'users' 
     user_id = db.Column(db.Integer , primary_key =True ,unique=True)
     username=db.Column(db.String(80),nullable=False)
     first_name = db.Column(db.String(80) , nullable= False)

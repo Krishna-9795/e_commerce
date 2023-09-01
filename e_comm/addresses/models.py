@@ -1,8 +1,9 @@
 from db import db
 
-class addresses(db.Model): 
+class Addresses(db.Model): 
+    __tablename__ = 'addresses' 
     address_id= db.Column(db.Integer, primary_key=True)
-    user_id= db.Column(db.Integer,Foreign_Key=True('user.user_id'))
+    user_id= db.Column(db.Integer,db.Foreign_Key('user.user_id'))
     street_address= db.Column(db.String)
     city= db.Column(db.String)
     state= db.Column(db.String)
@@ -10,9 +11,10 @@ class addresses(db.Model):
     country= db.Column(db.String)
     is_default= db.Column(db.Boolean)
     
-class shipping_addresses(db.Model): 
+class ShippingAddresses(db.Model): 
+    __tablename__ = 'shipping_addresses' 
     address_id= db.Column(db.Integer, primary_key=True)
-    user_id= db.Column(db.Integer,Foreign_Key=True('user.user_id'))
+    user_id= db.Column(db.Integer,db.Foreign_Key('user.user_id'))
     street_address= db.Column(db.String)
     city= db.Column(db.String)
     state= db.Column(db.String)
