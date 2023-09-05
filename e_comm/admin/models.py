@@ -1,4 +1,4 @@
-from db import db
+from e_comm.app import db
 from datetime import datetime
 class Users(db.Model):
     __tablename__ = 'users' 
