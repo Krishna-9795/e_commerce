@@ -29,6 +29,26 @@ def login():
     access_token = create_access_token(identity=user.user_id)
     return jsonify({'access_token': access_token},{'message': 'Login successful!', 'user_id': user.user_id}), 200
 
+def get_user(user_id):
+    user = Users.query.get(user_id)
+    user_data=[]
+    if user is None:
+        return jsonify({'message': 'User not found'}),404
+    else :
+        user_data.append({
+            'user_id': user.user_id,
+            'username': user.username,
+            'first_name': user.first_name,
+            'last_name': user.last_name,
+            'email': user.email,
+            'wallet_balance': user.wallet_balance,
+            'registration_date': user.registration_date,
+            'phone': user.phone,
+            'country': user.country,
+            'last_login_date': user.last_login_date        
+        })
+    return jsonify({'user': user_data}),200
+
 
 def get_all_users():
     users = Users.query.all()
@@ -63,3 +83,16 @@ def update_user(user_id):
     db.session.commit()
 
     return jsonify({'message': 'User updated successfully'})
+
+# Delete
+def delete_user(user_id):
+    
+    user = Users.query.get(user_id)
+
+    if not user:
+        return jsonify({'message': 'User not found'})
+
+    db.session.delete(user)
+    db.session.commit()
+
+    return jsonify({'message': 'User deleted successfully'})
