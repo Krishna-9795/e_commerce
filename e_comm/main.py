@@ -1,12 +1,6 @@
-from flask import Flask
-from flask_jwt_extended import JWTManager
-from datetime import timedelta
-from flask_sqlalchemy import SQLAlchemy
-
-from e_comm.app import init_app
-
-app = init_app()
-
+import sys
+sys.path.append('F:/e_commerce')
+from e_comm.app import app, db
     
 if __name__ == '__main__':
     app.run(debug=True)

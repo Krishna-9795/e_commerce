@@ -3,6 +3,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from admin.models import Users
 from flask_jwt_extended import create_access_token, get_jwt_identity
 from datetime import datetime
+from e_comm.app import db
 
 def register():
     data = request.get_json()
