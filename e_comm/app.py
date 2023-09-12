@@ -1,4 +1,3 @@
-
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_jwt_extended import JWTManager
@@ -13,8 +12,10 @@ app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(hours=1)
 
 db=SQLAlchemy(app)
 jwt=JWTManager(app)
-
+#db.init_app(app)
+with app.app_context():    
+    db.create_all()
 from e_comm.admin.url import app_routes
+from e_comm.addresses.url import address_routes
 app_routes(app)
-
-
+address_routes(app)
