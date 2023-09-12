@@ -1,4 +1,4 @@
-from db import db
+from e_comm.app import db
 from datetime import datetime
 
 class Products(db.Model):
@@ -35,18 +35,4 @@ class Categories(db.Model):
     __tablename__ = 'categories' 
     category_id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False)
-    
-class  Manufacturers(db.Model):
-    __tablename__ = 'manufacturers' 
-    manufacturer_id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String)
-    country= db.Column(db.String)
-    
-class Reviews(db.Model):
-    __tablename__ = 'reviews' 
-    review_id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)
-    product_id = db.Column(db.Integer, db.ForeignKey('products.product_id'), nullable=False)
-    rating = db.Column(db.Float, nullable=False)
-    review_text = db.Column(db.String)
-    review_date = db.Column(db.DateTime)
+

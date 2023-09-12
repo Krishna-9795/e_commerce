@@ -2,7 +2,6 @@ from e_comm.app import app
 from flask_jwt_extended import jwt_required
 from product.view import create_product,get_product, update_product,delete_product,create_product_variant,get_product_variant,update_product_variant,delete_product_variant
 
-from flask_sqlalchemy import SQLAlchemy
 
 
 
