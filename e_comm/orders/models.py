@@ -1,4 +1,4 @@
-from db import db
+from e_comm.app import db
 
 class Orders(db.Model):
     __tablename__ = 'orders' 
@@ -21,9 +21,3 @@ class OrderItems(db.Model):
     discount_percentage=db.Column(db.Float)
     total_amount= db.Column(db.Float, nullable=False)
     
-class Coupons(db.Model):
-    __tablename__ = 'coupons' 
-    coupon_id= db.Column(db.Integer, primary_key=True)
-    code=db.Column(db.String, unique=True, nullable=False)
-    coupon_amount= db.Column(db.Float, nullable=False)
-    coupon_expiration_date= db.Column(db.DateTime)

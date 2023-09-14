@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from e_comm.app import db
