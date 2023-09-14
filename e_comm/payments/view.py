@@ -99,3 +99,57 @@ def delete_payment_method(payment_method_id):
     db.session.delete(payment_method)
     db.session.commit()
     return jsonify({'message': 'Payment method deleted successfully'}), 200
+
+# Create a Transaction
+def create_transaction():
+    try:
+        data = request.json
+        new_transaction = Transactions(
+            user_id=data['user_id'],
+            transaction_amount=data['transaction_amount'],
+            transaction_type=data['transaction_type']
+        )
+        db.session.add(new_transaction)
+        db.session.commit()
+        return jsonify({'message': 'Transaction created successfully'}), 201
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+# Retrieve a Transaction by ID
+def get_transaction(transaction_id):
+    transaction = Transactions.query.get(transaction_id)
+    if transaction:
+        return jsonify(transaction.serialize()), 200
+    else:
+        return jsonify({'message': 'Transaction not found'}), 404
+
+# Update a Transaction by ID
+def update_transaction(transaction_id):
+    transaction = Transactions.query.get(transaction_id)
+    if not transaction:
+        return jsonify({'message': 'Transaction not found'}), 404
+
+    data = request.json
+    transaction.user_id = data.get('user_id', transaction.user_id)
+    transaction.transaction_amount = data.get('transaction_amount', transaction.transaction_amount)
+    transaction.transaction_type = data.get('transaction_type', transaction.transaction_type)
+
+    db.session.commit()
+    return jsonify({'message': 'Transaction updated successfully'}), 200
+
+# Delete a Transaction by ID
+def delete_transaction(transaction_id):
+    transaction = Transactions.query.get(transaction_id)
+    if not transaction:
+        return jsonify({'message': 'Transaction not found'}), 404
+
+    db.session.delete(transaction)
+    db.session.commit()
+    return jsonify({'message': 'Transaction deleted successfully'}), 200
+
+
+
+
+
+
+

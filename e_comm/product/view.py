@@ -1,8 +1,7 @@
 from flask import request, jsonify
-from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from e_comm.app import db
-from e_comm.product.models import Products,ProductVariants
+from e_comm.product.models import Products,ProductVariants,Categories,Manufacturers
 
 def create_product():
     try:
@@ -122,4 +121,95 @@ def delete_product_variant(variant_id):
     db.session.commit()
     return jsonify({'message': 'Product variant deleted successfully'}), 200
 
+# Create a Category
+def create_category():
+    try:
+        data = request.json
+        new_category = Categories(
+            name=data['name']
+        )
+        db.session.add(new_category)
+        db.session.commit()
+        return jsonify({'message': 'Category created successfully'}), 201
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
+# Retrieve a Category by ID
+def get_category(category_id):
+    category = Categories.query.get(category_id)
+    if category:
+        return jsonify(category.serialize()), 200
+    else:
+        return jsonify({'message': 'Category not found'}), 404
+    
+# Update a Category by ID
+def update_category(category_id):
+    category = Categories.query.get(category_id)
+    if not category:
+        return jsonify({'message': 'Category not found'}), 404
+
+    data = request.json
+    category.name = data.get('name', category.name)
+
+    db.session.commit()
+    return jsonify({'message': 'Category updated successfully'}), 200
+
+# Delete a Category by ID
+def delete_category(category_id):
+    category = Categories.query.get(category_id)
+    if not category:
+        return jsonify({'message': 'Category not found'}), 404
+
+    db.session.delete(category)
+    db.session.commit()
+    return jsonify({'message': 'Category deleted successfully'}), 200
+
+# Create a Manufacturer
+def create_manufacturer():
+    try:
+        data = request.json
+        new_manufacturer = Manufacturers(
+            name=data['name'],
+            country=data['country']
+        )
+        db.session.add(new_manufacturer)
+        db.session.commit()
+        return jsonify({'message': 'Manufacturer created successfully'}), 201
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+    
+# Retrieve all Manufacturers
+def get_manufacturers():
+    manufacturers = Manufacturers.query.all()
+    manufacturer_list = [manufacturer.serialize() for manufacturer in manufacturers]
+    return jsonify(manufacturer_list), 200
+# Retrieve a Manufacturer by ID
+def get_manufacturer(manufacturer_id):
+    manufacturer = Manufacturers.query.get(manufacturer_id)
+    if manufacturer:
+        return jsonify(manufacturer.serialize()), 200
+    else:
+        return jsonify({'message': 'Manufacturer not found'}), 404
+# Update a Manufacturer by ID
+def update_manufacturer(manufacturer_id):
+    manufacturer = Manufacturers.query.get(manufacturer_id)
+    if not manufacturer:
+        return jsonify({'message': 'Manufacturer not found'}), 404
+
+    data = request.json
+    manufacturer.name = data.get('name', manufacturer.name)
+    manufacturer.country = data.get('country', manufacturer.country)
+
+    db.session.commit()
+    return jsonify({'message': 'Manufacturer updated successfully'}), 200
+
+# Delete a Manufacturer by ID
+def delete_manufacturer(manufacturer_id):
+    manufacturer = Manufacturers.query.get(manufacturer_id)
+    if not manufacturer:
+        return jsonify({'message': 'Manufacturer not found'}), 404
+
+    db.session.delete(manufacturer)
+    db.session.commit()
+    return jsonify({'message': 'Manufacturer deleted successfully'}), 200
+    

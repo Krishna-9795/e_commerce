@@ -9,3 +9,4 @@ class Reviews(db.Model):
     rating = db.Column(db.Float, nullable=False)
     review_text = db.Column(db.String)
     review_date = db.Column(db.DateTime)
+    

@@ -7,3 +7,4 @@ class Coupons(db.Model):
     code=db.Column(db.String, unique=True, nullable=False)
     coupon_amount= db.Column(db.Float, nullable=False)
     coupon_expiration_date= db.Column(db.DateTime)
+    

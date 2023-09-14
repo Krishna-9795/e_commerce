@@ -37,3 +37,22 @@ def update_payment_method():
 @app.route('/payment-methods/<int:payment_method_id>', methods=['DELETE'])
 def delete_payment_method():
     return view.delete_payment_method()
+# Create a Transaction
+@app.route('/transactions', methods=['POST'])
+def create_transaction():
+    return view.create_transaction()
+
+# Retrieve a Transaction by ID
+@app.route('/transactions/<int:transaction_id>', methods=['GET'])
+def get_transaction():
+    return view.get_transaction()
+
+# Update a Transaction by ID
+@app.route('/transactions/<int:transaction_id>', methods=['PUT'])
+def update_transaction():
+    return view.update_transaction()
+
+# Delete a Transaction by ID
+@app.route('/transactions/<int:transaction_id>', methods=['DELETE'])
+def delete_transaction():
+    return view.delete_transaction()
