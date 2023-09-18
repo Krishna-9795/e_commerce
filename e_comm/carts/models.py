@@ -1,5 +1,5 @@
 from e_comm.app import db
-from flask_sqlalchemy import ForeignKey
+from sqlalchemy import ForeignKey
 class Carts(db.Model):
     __tablename__ = 'carts' 
     cart_id =db.Column(db.Integer,primary_key=True)

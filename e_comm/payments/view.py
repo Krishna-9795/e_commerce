@@ -1,6 +1,6 @@
 from e_comm.app import db
 from flask import request,jsonify
-from e_comm.payments import Payments,PaymentMethods,Transactions
+from e_comm.payments.models import Payments,PaymentMethods,Transactions
 
 
 # Create a Payment

@@ -2,7 +2,7 @@ from e_comm.app import app
 from flask_jwt_extended import jwt_required
 from admin.view import register,login,get_all_users,update_user,delete_user,get_user
 
-def app_routes(app):
+def admin_routes(app):
     # Registering
     @app.route('/register', methods=['POST'])
     def registers():

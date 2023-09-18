@@ -10,10 +10,11 @@ def address_data():
     # Check if required fields are present in the JSON data
     if 'address_id' not in data or 'street_address' not in data:
         return jsonify({'message': 'Address ID and Street Address are required fields'}), 400
-    
-    try:
+
+    else:
         new_address = Addresses(
             address_id=data['address_id'],
+            user_id=data['user_id'],
             street_address=data['street_address'],
             city=data.get('city'),
             state=data.get('state'),
@@ -24,9 +25,6 @@ def address_data():
         db.session.add(new_address)
         db.session.commit()
         return jsonify({'message': 'New address record created'}), 201  # 201 indicates resource created
-    except Exception as e:
-        # Handle any exceptions that may occur during database operations
-        return jsonify({'message': 'An error occurred while creating the address'}), 500  # 500 indicates server error
 
 
 # Updating a record

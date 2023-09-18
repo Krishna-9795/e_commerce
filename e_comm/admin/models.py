@@ -14,6 +14,7 @@ class Users(db.Model):
     country=db.Column(db.String(80) ,nullable=False)
     last_login_date=db.Column(db.DateTime)
 
+""""
     def __init__(self,username,first_name, last_name,email,password,wallet_balance,
                 phone, country):
         self.username = username
@@ -24,4 +25,4 @@ class Users(db.Model):
         self.wallet_balance=wallet_balance
         self.phone = phone
         self.country=country
-    
+    """

@@ -5,7 +5,7 @@ from sqlalchemy import ForeignKey
 class Addresses(db.Model): 
     __tablename__ = 'addresses' 
     address_id= db.Column(db.Integer, primary_key=True)
-    user_id= db.Column(db.Integer,ForeignKey('user.user_id'))
+    user_id= db.Column(db.Integer,ForeignKey('users.user_id'))
     street_address= db.Column(db.String)
     city= db.Column(db.String)
     state= db.Column(db.String)

@@ -10,12 +10,12 @@ def address_routes(app):
         return address_data()
         
     @app.route('/update/<int:address_id>',methods=['PUT']) 
-   # @jwt_required()
+    # @jwt_required()
     def update_addresses():
         return update_address()
     # Delete
     @app.route('/delete/<int:address_id>', methods=['DELETE'])
-   # @jwt_required()
+# @jwt_required()
     def delete_addresses():
         return delete_address()
 
@@ -25,12 +25,12 @@ def address_routes(app):
         return shipping_address_data()
 
     @app.route('/shipin_address/update/<int:address_id>',methods=['PUT']) 
-    @jwt_required()
+#   @jwt_required()
     def update_ship_addresses():
         return update_shipping_address()
 
     @app.route('/shipping_address/delete/<int:address_id>', methods=['DELETE'])
-    @jwt_required()
+#  @jwt_required()
     def delete_shipping_addresses():
         return delete_shipping_address()
     
