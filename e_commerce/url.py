@@ -1,4 +1,4 @@
-#from e_comm.app import app
+from e_comm.app import app
 
 from e_comm.admin.url import admin_routes
 from e_comm.addresses.url import address_routes

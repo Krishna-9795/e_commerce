@@ -1,4 +1,4 @@
-from e_comm.app import app
+#from e_comm.app import app
 from e_comm.carts import view
 
 

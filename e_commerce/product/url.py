@@ -1,4 +1,4 @@
-from e_comm.app import app
+#from e_comm.app import app
 from flask_jwt_extended import jwt_required
 from e_comm.product import view
 

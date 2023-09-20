@@ -1,4 +1,4 @@
-from e_comm.app import app
+#from e_comm.app import app
 from e_comm.review import view
 
 def review_routes(app):

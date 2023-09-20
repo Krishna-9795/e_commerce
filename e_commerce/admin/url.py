@@ -1,4 +1,4 @@
-from e_comm.app import app
+#from e_comm.app import app
 from flask_jwt_extended import jwt_required
 from admin.view import register,login,get_all_users,update_user,delete_user,get_user
 

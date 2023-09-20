@@ -1,4 +1,4 @@
-from e_comm.app import app
+#from e_comm.app import app
 from flask_jwt_extended import jwt_required
 from e_comm.addresses.view import address_data, update_address, delete_address, shipping_address_data, update_shipping_address, delete_shipping_address
 
