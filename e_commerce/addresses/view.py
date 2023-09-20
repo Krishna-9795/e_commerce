@@ -1,7 +1,7 @@
 from flask import request, jsonify
 
 from addresses.models import Addresses,ShippingAddresses
-from e_comm.app import db
+from e_commerce.app import db
 
 # Creating a record
 def address_data():

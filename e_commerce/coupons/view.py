@@ -1,6 +1,6 @@
 from flask import jsonify,request
-from e_comm.app import db
-from e_comm.coupons.models import Coupons
+from e_commerce.app import db
+from e_commerce.coupons.models import Coupons
 
 
 # Create a Coupon

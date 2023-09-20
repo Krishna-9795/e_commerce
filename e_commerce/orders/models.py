@@ -1,4 +1,4 @@
-from e_comm.app import db
+from e_commerce.app import db
 from sqlalchemy import ForeignKey
 
 class Orders(db.Model):

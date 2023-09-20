@@ -1,5 +1,5 @@
 import jwt
-from e_comm.app import app
+from e_commerce.app import app
 from flask import jsonify,request
 from functools import wraps
 

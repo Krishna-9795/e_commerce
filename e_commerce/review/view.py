@@ -1,6 +1,6 @@
 from flask import jsonify,request
-from e_comm.app import db
-from e_comm.review.models import Reviews
+from e_commerce.app import db
+from e_commerce.review.models import Reviews
 
 
 #Create a Review
