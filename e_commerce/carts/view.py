@@ -1,4 +1,4 @@
-from e_commerce.app import db
+from e_commerce.db import db
 from e_commerce.carts.models import Carts,Cart_items
 from flask import jsonify,request
 import datetime

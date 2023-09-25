@@ -1,5 +1,6 @@
-from e_commerce.app import db
 from sqlalchemy import ForeignKey
+#from e_commerce.app import db
+from e_commerce.db import db
 class Carts(db.Model):
     __tablename__ = 'carts' 
     cart_id =db.Column(db.Integer,primary_key=True)

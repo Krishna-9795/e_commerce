@@ -1,6 +1,7 @@
 from flask import request, jsonify
 from datetime import datetime
-from e_commerce.app import db
+from e_commerce.db import db
+#from e_commerce.app import db
 from e_commerce.product.models import Products,ProductVariants,Categories,Manufacturers
 
 def create_product():

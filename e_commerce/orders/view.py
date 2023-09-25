@@ -1,4 +1,4 @@
-from e_commerce.app import db
+from e_commerce.db import db
 from e_commerce.orders.models import Orders,OrderItems
 from flask import request,jsonify
 

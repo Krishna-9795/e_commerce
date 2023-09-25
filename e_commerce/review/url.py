@@ -1,4 +1,3 @@
-from e_commerce.app import app
 from e_commerce.review import view
 from flask import Blueprint
 

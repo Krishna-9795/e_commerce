@@ -1,4 +1,3 @@
-from e_commerce.app import app
 from flask_jwt_extended import jwt_required
 from e_commerce.product import view
 from flask import Blueprint

@@ -1,7 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
-from e_commerce.app import db
-
+#from e_commerce.app import db
+from e_commerce.db import db
 
 class Admin(db.Model):
     __tablename__ = 'admin'

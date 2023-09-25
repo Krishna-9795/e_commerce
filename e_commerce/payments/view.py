@@ -1,4 +1,4 @@
-from e_commerce.app import db
+from e_commerce.db import db
 from flask import request,jsonify
 from e_commerce.payments.models import Payments,PaymentMethods,Transactions
 

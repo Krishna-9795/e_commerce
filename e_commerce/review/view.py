@@ -1,5 +1,5 @@
 from flask import jsonify,request
-from e_commerce.app import db
+from e_commerce.db import db
 from e_commerce.review.models import Reviews
 
 

@@ -1,12 +1,13 @@
 from e_commerce.admin.models import Admin
+from e_commerce.db import db
 
-from e_commerce.app import app , db
 #import config as server
 from flask import request , jsonify
 import jwt
 
 
-def admin_login():    
+def admin_login(): 
+    from e_commerce.app import app        
     if request.method == 'POST':
         credentials = request.json
         email = credentials['email']
