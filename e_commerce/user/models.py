@@ -1,7 +1,7 @@
 from e_commerce.db import db
 #from e_commerce.app import db
-from datetime import datetime
 
+from datetime import datetime
 
 class Users(db.Model):
     __tablename__ = 'users' 
