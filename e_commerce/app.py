@@ -17,9 +17,7 @@ app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(hours=1)
 
 #db=SQLAlchemy(app)
 jwt=JWTManager(app)
-from flask_sqlalchemy import SQLAlchemy
 
-db=SQLAlchemy()
 migrate=Migrate(app,db)
 #db.init_app(app)    
 with app.app_context(): 
