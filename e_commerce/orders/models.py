@@ -8,10 +8,10 @@ class Orders(db.Model):
     user_id = db.Column(db.Integer, ForeignKey('users.user_id'), nullable=False)
     order_date = db.Column(db.DateTime, nullable=False)
     total_amount = db.Column(db.Float, nullable=False)
-    order_status= db.Column(db.String)
-    shipping_address=db.Column(db.String)
-    payment_method=db.Column(db.String)
-    coupon_id=db.Column(db.Integer, ForeignKey('Coupon.coupon_id'),nullable=True)
+    order_status= db.Column(db.String(100))
+    shipping_address=db.Column(db.String(100))
+    payment_method=db.Column(db.String(100))
+    coupon_id=db.Column(db.Integer, ForeignKey('coupons.coupon_id'),nullable=True)
 
 class OrderItems(db.Model):
     __tablename__ = 'orders_items' 

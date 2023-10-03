@@ -2,6 +2,8 @@ import jwt
 from e_commerce.app import app
 from flask import jsonify,request
 from functools import wraps
+import smtplib
+import random
 
 
 def admin_token(f):
@@ -50,3 +52,15 @@ def address_token(f):
                             "data" : None})
         return f( *args, **kwargs)
     return decorated
+
+
+def user_otp(receiver_mail):
+    s = smtplib.SMTP('smtp.gmail.com', 587)
+    s.starttls()
+    s.login("test.developer.off@gmail.com", "fpyetsdbwevindcw")
+    otp = random.randint(100000, 999999)
+    otp = str(otp)
+    msg='Hello, Your OTP is '+str(otp)
+    s.sendmail("test.developer.off@gmail.com", receiver_mail, msg)
+    s.quit()
+    return(otp)

@@ -11,9 +11,9 @@ class Products(db.Model):
     price=db.Column(db.Float, nullable=False)
     stock_quantity=db.Column(db.Integer, nullable=False)
     category_id = db.Column(db.Integer, ForeignKey('categories.category_id'), nullable=False)
-    image_url=db.Column(db.String,nullable=False)
+    image_url=db.Column(db.String(100),nullable=False)
     manufacturer_id = db.Column(db.Integer, ForeignKey('manufacturers.manufacturer_id'))
-    creation_date=db.Column(db.String)
+    creation_date=db.Column(db.String(80))
     average_rating = db.Column(db.Float)
     total_ratings = db.Column(db.Integer)
     
@@ -22,12 +22,12 @@ class ProductVariants():
     __tablename__ = 'product_variants' 
     variant_id=	db.Column(db.Integer, primary_key=True)
     product_id= db.Column(db.Integer, ForeignKey('products.product_id'), nullable=False)
-    color=db.Column(db.String)
+    color=db.Column(db.String(80))
     size=db.Column(db.Float)
-    material= db.Column(db.String)
-    other_features=db.Column(db.String)
-    specification=db.Column(db.String)
-    image_url=db.Column(db.String)
+    material= db.Column(db.String(100))
+    other_features=db.Column(db.String(100))
+    specification=db.Column(db.String(100))
+    image_url=db.Column(db.String(100))
     price=	db.Column(db.Float)
     quantity=db.Column(db.Float)
     created_at=db.Column(db.DateTime, default= datetime.utcnow)
@@ -36,11 +36,11 @@ class ProductVariants():
 class Categories(db.Model):
     __tablename__ = 'categories' 
     category_id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String, nullable=False)
+    name = db.Column(db.String(100), nullable=False)
     
 class  Manufacturers(db.Model):
     __tablename__ = 'manufacturers' 
     manufacturer_id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String)
-    country= db.Column(db.String)
+    name = db.Column(db.String(100))
+    country= db.Column(db.String(100))
     

@@ -6,11 +6,11 @@ class Addresses(db.Model):
     __tablename__ = 'addresses' 
     address_id= db.Column(db.Integer, primary_key=True)
     user_id= db.Column(db.Integer,ForeignKey('users.user_id'))
-    street_address= db.Column(db.String)
-    city= db.Column(db.String)
-    state= db.Column(db.String)
+    street_address= db.Column(db.String(100))
+    city= db.Column(db.String(100))
+    state= db.Column(db.String(100))
     postal_code= db.Column(db.Integer)
-    country= db.Column(db.String)
+    country= db.Column(db.String(100))
     is_default= db.Column(db.Boolean)
     """
     
@@ -26,12 +26,12 @@ class Addresses(db.Model):
 class ShippingAddresses(db.Model): 
     __tablename__ = 'shipping_addresses' 
     address_id= db.Column(db.Integer, primary_key=True)
-    user_id= db.Column(db.Integer,ForeignKey('user.user_id'))
-    street_address= db.Column(db.String)
-    city= db.Column(db.String)
-    state= db.Column(db.String)
+    user_id= db.Column(db.Integer,ForeignKey('users.user_id'))
+    street_address= db.Column(db.String(100))
+    city= db.Column(db.String(100))
+    state= db.Column(db.String(100))
     postal_code= db.Column(db.Integer)
-    country= db.Column(db.String) 
+    country= db.Column(db.String(100)) 
     
 """
     def __init__(self,street_address,city,state,postal_code, country):

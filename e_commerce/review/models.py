@@ -8,6 +8,6 @@ class Reviews(db.Model):
     user_id = db.Column(db.Integer, ForeignKey('users.user_id'))
     product_id = db.Column(db.Integer, ForeignKey('products.product_id'))
     rating = db.Column(db.Float, nullable=False)
-    review_text = db.Column(db.String)
+    review_text = db.Column(db.String(100))
     review_date = db.Column(db.DateTime)
     

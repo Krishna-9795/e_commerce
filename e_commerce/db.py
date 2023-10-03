@@ -1,4 +1,3 @@
 from flask_sqlalchemy import SQLAlchemy
-import app
-
+from e_commerce.app import app
 db=SQLAlchemy(app)
