@@ -1,7 +1,7 @@
 from e_commerce.admin.models import Admin
 from e_commerce.db import db
 
-#import config as server
+import config as server
 from flask import request , jsonify
 import jwt
 

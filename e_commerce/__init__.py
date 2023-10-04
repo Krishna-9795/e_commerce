@@ -1,6 +1,6 @@
 #from db import db
 from e_commerce.app import app
-from datetime import timedelta 
+
 import sys
 sys.path.append('F:/e_commerce')
 
@@ -8,9 +8,7 @@ from datetime import timedelta
 from flask_jwt_extended import JWTManager
 
 app.config['SQLALCHEMY_DATABASE_URI'] ='mysql+pymysql://root:krishna123@localhost/ecommerce'
-app.config['SECRET_KEY'] = 'ecommerce123'
-app.config['JWT_SECRET_KEY'] = 'Krishna#9795 ' 
-app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(hours=1)
+
 app.app_context().push()
 jwt=JWTManager(app)
 

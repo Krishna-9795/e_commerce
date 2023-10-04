@@ -26,7 +26,26 @@ def address_data():
         db.session.commit()
         return jsonify({'message': 'New address record created'}), 201  # 201 indicates resource created
 
+#retrieving a record of address
+def get_address(address_id):
+    address=Addresses.query.get(address_id)
+    address_data=[]
+    if  address is None:
+            return jsonify({'message': 'address not found'})
+    else :
+        address_data.append({
+            'address_id':address.address_id,
+            'user_id':address.user_id,
+            'street_address':address.street_address,
+            'city':address.city,
+            'state':address.state,
+            'postal_code':address.postal_code,
+            'country':address.country,
+            'is_default':address.is_default       
+        })
+    return jsonify({'address': address_data}),200
 
+        
 # Updating a record
 def update_address(address_id):
         data = request.get_json()
@@ -45,7 +64,7 @@ def update_address(address_id):
 
         return jsonify({'message': 'Address updated successfully'})
     
-# Deleting a product record
+# Deleting a address record
 def delete_address(address_id):
     
     address = Addresses.query.get(address_id)
@@ -58,6 +77,7 @@ def delete_address(address_id):
 
     return jsonify({'message': 'Address deleted successfully'})
 
+# Creating a shipping_address record
 def shipping_address_data():
     data=request.get_json()
     new_address=ShippingAddresses(address_id=data['address_id'], street_address=data['street_address'],
@@ -67,9 +87,27 @@ def shipping_address_data():
     db.session.commit()
     return jsonify({'message':'New address record created'})
 
+# Retrieving a shipping address
+def get_ship_address(address_id):
+    address=ShippingAddresses.query.get(address_id)
+    address_data=[]
+    if  address is None:
+            return jsonify({'message': 'address not found'})
+    else :
+        address_data.append({
+            'address_id':address.address_id,
+            'user_id':address.user_id,
+            'street_address':address.street_address,
+            'city':address.city,
+            'state':address.state,
+            'postal_code':address.postal_code,
+            'country':address.country     
+        })
+    return jsonify({'address': address_data}),200
+
 def update_shipping_address(address_id):
         data = request.get_json()
-        shipping_address = Addresses.query.get(address_id)
+        shipping_address = ShippingAddresses.query.get(address_id)
         if not shipping_address:
             return jsonify({'message': 'address not found'})
 
@@ -86,7 +124,7 @@ def update_shipping_address(address_id):
     
 def delete_shipping_address(address_id):
     
-    shipping_address = Addresses.query.get(address_id)
+    shipping_address = ShippingAddresses.query.get(address_id)
 
     if not shipping_address:
         return jsonify({'message': 'Address not found'})
