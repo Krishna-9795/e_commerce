@@ -8,6 +8,7 @@ def create_product():
     try:
         data = request.json
         new_product = Products(
+                        product_id=data['product_id'],
                         name=data['name'],
                         description=data['description'],
                         price=data['price'],
@@ -24,14 +25,30 @@ def create_product():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
     
+def product_to_dict(product):
+    return {
+        'product_id': product.product_id,
+        'name': product.name,
+        'description': product.description,
+        'price': product.price,
+        'stock_quantity': product.stock_quantity,
+        'category_id': product.category_id,
+        'image_url': product.image_url,
+        'manufacturer_id': product.manufacturer_id,
+        'creation_date': product.creation_date,
+        'average_rating': product.average_rating,
+        'total_ratings': product.total_ratings
+    }    
+    
 # Retrieves product data
 def get_product(product_id):
-    product = Products.query.get(product_id)
-    if product:
-        return jsonify(product.serialize()), 200
-    else:
-        return jsonify({'message': 'Product not found'}), 404
-    
+        product = Products.query.get(product_id)
+        if product:
+            product_dict = product_to_dict(product)
+            return jsonify(product_dict), 200
+        else:
+            return jsonify({'message': 'Product not found'}), 404
+        
 # Updates product data
 def update_product(product_id):
     product = Products.query.get(product_id)
@@ -88,7 +105,17 @@ def create_product_variant():
 def get_product_variant(variant_id):
     variant = ProductVariants.query.get(variant_id)
     if variant:
-        return jsonify(variant.serialize()), 200
+        return jsonify({ "variant_id":variant.variant_id,
+    "product_id": variant.product_id,
+    "color": variant.color,
+    "size": variant.size,
+    "material": variant.material,
+    "other_features":variant.other_features,
+    "specification": variant.specification,
+    "image_url": variant.image_url,
+    "price": variant.price,
+    "quantity":variant.quantity,
+    "created_at": variant.created_at}), 200
     else:
         return jsonify({'message': 'Product variant not found'}), 404
     
@@ -139,7 +166,8 @@ def create_category():
 def get_category(category_id):
     category = Categories.query.get(category_id)
     if category:
-        return jsonify(category.serialize()), 200
+        return jsonify(   { "category_id":category.category_id,
+    "name":category.name}), 200
     else:
         return jsonify({'message': 'Category not found'}), 404
     
@@ -182,13 +210,17 @@ def create_manufacturer():
 # Retrieve all Manufacturers
 def get_manufacturers():
     manufacturers = Manufacturers.query.all()
-    manufacturer_list = [manufacturer.serialize() for manufacturer in manufacturers]
+    manufacturer_list = [{'manufacturer_id': manufacturer.manufacturer_id,
+                            'name': manufacturer.name} for manufacturer in manufacturers]
     return jsonify(manufacturer_list), 200
+
+
 # Retrieve a Manufacturer by ID
 def get_manufacturer(manufacturer_id):
     manufacturer = Manufacturers.query.get(manufacturer_id)
     if manufacturer:
-        return jsonify(manufacturer.serialize()), 200
+        return jsonify({'manufacturer_id': manufacturer.manufacturer_id,
+                            'name': manufacturer.name}), 200
     else:
         return jsonify({'message': 'Manufacturer not found'}), 404
 # Update a Manufacturer by ID

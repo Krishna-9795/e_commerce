@@ -32,6 +32,7 @@ def delete_addresses(address_id):
 #  @jwt_required()
 def ship_addresses_data():
     return shipping_address_data()
+
 # Retrieving a shipping address
 @address_bp.route('/shipping_address/get/<int:address_id>',methods=['get'])
 def gets_ship_address(address_id):

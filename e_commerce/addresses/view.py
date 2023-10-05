@@ -117,7 +117,6 @@ def update_shipping_address(address_id):
         shipping_address.state=data.get('state',shipping_address.state)
         shipping_address.postal_code=data.get('postal_code',shipping_address.postal_code)
         shipping_address.country=data.get('country',shipping_address.country)
-        shipping_address.is_default=data.get('is_default',shipping_address.is_default)
         db.session.commit()
 
         return jsonify({'message': 'Shipping Address updated successfully'})

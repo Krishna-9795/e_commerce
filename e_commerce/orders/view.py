@@ -1,10 +1,13 @@
 from e_commerce.db import db
 from e_commerce.orders.models import Orders,OrderItems
 from flask import request,jsonify
+from datetime import datetime
 
 def create_order():
     try:
         data = request.json
+        order_date_str = '2023-09-12T14:30:00Z'
+        order_date = datetime.strptime(order_date_str, '%Y-%m-%dT%H:%M:%SZ')
         new_order = Orders(
             user_id=data['user_id'],
             order_date=data['order_date'],
@@ -24,7 +27,14 @@ def create_order():
 def get_order(order_id):
     order = Orders.query.get(order_id)
     if order:
-        return jsonify(order.serialize()), 200
+        return jsonify({"order_id":order.order_id,
+                        "user_id":order.user_id,
+                        "order_date":order.order_date,
+                        "total_amount":order.total_amount,
+                        "order_status":order.order_status,
+                        "shipping_address":order.shipping_address,
+                        "payment_method":order.payment_method,
+                        "coupon_id":order.coupon_id}), 200
     else:
         return jsonify({'message': 'Order not found'}), 404
     
@@ -55,6 +65,7 @@ def delete_order(order_id):
     db.session.commit()
     return jsonify({'message': 'Order deleted successfully'}), 200
 
+
 # Creating an Order Item 
 def create_order_item():
     try:
@@ -72,11 +83,21 @@ def create_order_item():
         return jsonify({'message': 'Order item created successfully'}), 201
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
+
 # Retreiving an Order Item   
 def get_order_item(order_item_id):
     order_item = OrderItems.query.get(order_item_id)
     if order_item:
-        return jsonify(order_item.serialize()), 200
+        return jsonify({"order_item_id":order_item.order_item_id,
+                        "order_id":order_item.order_id,
+                        "product_id":order_item.product_id,
+                        "unit_price":order_item.unit_price,
+                        "order_quantity":order_item.order_quantity,
+                        "discount_percentage":order_item.discount_percentage,
+                        "total_amount":order_item.total_amount
+                        
+                        }), 200
     else:
         return jsonify({'message': 'Order item not found'}), 404
     

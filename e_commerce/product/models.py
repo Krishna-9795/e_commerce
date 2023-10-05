@@ -18,12 +18,12 @@ class Products(db.Model):
     total_ratings = db.Column(db.Integer)
     
     
-class ProductVariants():
+class ProductVariants(db.Model):
     __tablename__ = 'product_variants' 
     variant_id=	db.Column(db.Integer, primary_key=True)
     product_id= db.Column(db.Integer, ForeignKey('products.product_id'), nullable=False)
-    color=db.Column(db.String(80))
-    size=db.Column(db.Float)
+    color=db.Column(db.String(100))
+    size=db.Column(db.String(100))
     material= db.Column(db.String(100))
     other_features=db.Column(db.String(100))
     specification=db.Column(db.String(100))
