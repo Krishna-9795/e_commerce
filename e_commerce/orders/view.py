@@ -76,7 +76,7 @@ def create_order_item():
             unit_price=data['unit_price'],
             order_quantity=data['order_quantity'],
             discount_percentage=data.get('discount_percentage'),
-            total_amount=data['total_amount']
+            total_amount=data['unit_price']*data['order_quantity'] - (data['unit_price']*data['order_quantity']*data['discount_percentage']/100)
         )
         db.session.add(new_order_item)
         db.session.commit()
