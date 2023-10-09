@@ -15,15 +15,15 @@ def get_reviews():
 
 # Retrieve a Review by ID
 @review_bp.route('/reviews/retrieve/<int:review_id>', methods=['GET'])
-def get_review():
-    return view.get_review()
+def get_review(review_id):
+    return view.get_review(review_id)
 
 # Update a Review by ID
 @review_bp.route('/reviews/update/<int:review_id>', methods=['PUT'])
-def update_review():
-    return view.update_review()
+def update_review(review_id):
+    return view.update_review(review_id)
 
 # Delete a Review by ID
 @review_bp.route('/reviews/delete/<int:review_id>', methods=['DELETE'])
-def delete_review():
-    return view.delete_review()
+def delete_review(review_id):
+    return view.delete_review(review_id)

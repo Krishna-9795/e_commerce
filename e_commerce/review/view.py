@@ -1,7 +1,7 @@
 from flask import jsonify,request
 from e_commerce.db import db
 from e_commerce.review.models import Reviews
-
+from datetime import datetime
 
 #Create a Review
 def create_review():
@@ -12,7 +12,7 @@ def create_review():
             product_id=data['product_id'],
             rating=data['rating'],
             review_text=data['review_text'],
-            review_date=data.get('review_date')
+            review_date=data.get('review_date',datetime.utcnow())
         )
         db.session.add(new_review)
         db.session.commit()
@@ -30,7 +30,12 @@ def get_reviews():
 def get_review(review_id):
     review = Reviews.query.get(review_id)
     if review:
-        return jsonify(review.serialize()), 200
+        return jsonify({"review_id":review.review_id,
+                        "user_id":review.user_id,
+                        "product_id":review.product_id,
+                        "rating":review.rating,
+                        "review_text":review.review_text,
+                        "review_date":review.review_date}), 200
     else:
         return jsonify({'message': 'Review not found'}), 404
     

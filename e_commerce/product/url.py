@@ -47,7 +47,6 @@ def delete_product_variant(variant_id):
     return  view.delete_product_variant(variant_id)
 
 
-
 # Create a Category
 @product_bp.route('products/categories/register', methods=['POST'])
 def create_categories():

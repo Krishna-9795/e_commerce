@@ -1,15 +1,16 @@
 from e_commerce.db import db
 from e_commerce.carts.models import Carts,Cart_items
 from flask import jsonify,request
-import datetime
+from datetime import datetime
 
 # Create a Cart
 def create_cart():
     try:
         data = request.json
+        
         new_cart = Carts(
             user_id=data['user_id'],
-            creation_date=data.get('creation_date', datetime.utcnow())
+            creation_date=data.get('creation_date',datetime.utcnow())
         )
         db.session.add(new_cart)
         db.session.commit()
@@ -21,7 +22,9 @@ def create_cart():
 def get_cart(cart_id):
     cart = Carts.query.get(cart_id)
     if cart:
-        return jsonify(cart.serialize()), 200
+        return jsonify({"cart_id":cart.cart_id,
+                        "user_id":cart.user_id,
+                        "creation_date":cart.creation_date}), 200
     else:
         return jsonify({'message': 'Cart not found'}), 404
 # Update a Cart by ID
@@ -65,7 +68,10 @@ def create_cart_item():
 def get_cart_item(cart_item_id):
     cart_item = Cart_items.query.get(cart_item_id)
     if cart_item:
-        return jsonify(cart_item.serialize()), 200
+        return jsonify({"cart_item_id":cart_item.cart_item_id,
+                        "cart_id":cart_item.cart_id,
+                        "product_id":cart_item.product_id,
+                        "quantity":cart_item.quantity}), 200
     else:
         return jsonify({'message': 'Cart item not found'}), 404
 

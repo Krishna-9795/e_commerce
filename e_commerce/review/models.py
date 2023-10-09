@@ -1,6 +1,7 @@
 from e_commerce.db import db
-#from e_commerce.app import db
 from sqlalchemy import ForeignKey
+from datetime import datetime
+
 
 class Reviews(db.Model):
     __tablename__ = 'reviews' 
@@ -9,5 +10,4 @@ class Reviews(db.Model):
     product_id = db.Column(db.Integer, ForeignKey('products.product_id'))
     rating = db.Column(db.Float, nullable=False)
     review_text = db.Column(db.String(100))
-    review_date = db.Column(db.DateTime)
-    
+    review_date = db.Column(db.DateTime, default=datetime.utcnow())

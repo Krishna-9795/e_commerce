@@ -1,5 +1,4 @@
 from e_commerce.db import db
-#from e_commerce.app import db
 
 
 class Coupons(db.Model):

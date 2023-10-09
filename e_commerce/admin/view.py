@@ -1,9 +1,20 @@
 from e_commerce.admin.models import Admin
+from e_commerce.product.models import Products
 from e_commerce.db import db
-
-import config as server
+from datetime import datetime
+from werkzeug.security import generate_password_hash, check_password_hash
+import e_commerce.config as server
 from flask import request , jsonify
 import jwt
+
+def register():
+    data = request.get_json()
+    hashed_password = generate_password_hash(data['password'], method='sha256')
+    new_admin = Admin(admin_name=data['admin_name'],email=data['email'], password=hashed_password)
+    db.session.add(new_admin)
+    db.session.commit()
+    return jsonify({'message': 'New admin created!'})
+
 
 
 def admin_login(): 
@@ -15,8 +26,8 @@ def admin_login():
         data = Admin.query.filter_by(email = email).first()
         try:
             admin_data = {'id' : data.id ,
-                      'name' : data.admin_name,
-                      'email' : data.email}
+                        'name' : data.admin_name,
+                        'email' : data.email}
             token_data = {'id' : data.id}
             token = jwt.encode(token_data , app.config['ADMIN_SECRET_KEY'] , algorithm= 'HS256')
             if data.password == password :
@@ -34,3 +45,5 @@ def admin_login():
             "code" : "901" , 
             "message" : "invalid id or password" ,
             "data" : None})
+    
+

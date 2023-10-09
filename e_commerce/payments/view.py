@@ -24,24 +24,34 @@ def create_payment():
 def get_payment(payment_id):
     payment = Payments.query.get(payment_id)
     if payment:
-        return jsonify(payment.serialize()), 200
+        return jsonify({"payment_id":payment.payment_id,
+                        "order_id":payment.order_id,
+                        "payment_date":payment.payment_date,
+                        "payment_amount":payment.payment_amount,
+                        "payment_status":payment.payment_status,
+                        "payment_method":payment.payment_method
+                        }), 200
     else:
         return jsonify({'message': 'Payment not found'}), 404
 # Update a Payment by ID
 def update_payment(payment_id):
-    payment = Payments.query.get(payment_id)
-    if not payment:
-        return jsonify({'message': 'Payment not found'}), 404
+    try:
+        data = request.json
+        payment = Payments.query.get(payment_id)
+        if not payment:
+            return jsonify({'message': 'Payment not found'}), 404
 
-    data = request.json
-    payment.order_id = data.get('order_id', payment.order_id)
-    payment.payment_date = data.get('payment_date', payment.payment_date)
-    payment.payment_amount = data.get('payment_amount', payment.payment_amount)
-    payment.payment_status = data.get('payment_status', payment.payment_status)
-    payment.payment_method = data.get('payment_method', payment.payment_method)
+        
+        payment.order_id = data.get('order_id', payment.order_id)
+        payment.payment_date = data.get('payment_date', payment.payment_date)
+        payment.payment_amount = data.get('payment_amount', payment.payment_amount)
+        payment.payment_status = data.get('payment_status', payment.payment_status)
+        payment.payment_method = data.get('payment_method', payment.payment_method)
 
-    db.session.commit()
-    return jsonify({'message': 'Payment updated successfully'}), 200
+        db.session.commit()
+        return jsonify({'message': 'Payment updated successfully'}), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 # Delete a Payment by ID
 def delete_payment(payment_id):
@@ -72,7 +82,11 @@ def create_payment_method():
 def get_payment_method(payment_method_id):
     payment_method = PaymentMethods.query.get(payment_method_id)
     if payment_method:
-        return jsonify(payment_method.serialize()), 200
+        return jsonify({"payment_method_id":payment_method.payment_method_id,
+                        "user_id":payment_method.user_id,
+                        "card_number":payment_method.card_number,
+                        "expiration_date":payment_method.expiration_date,
+                        "cvv":payment_method.cvv }), 200
     else:
         return jsonify({'message': 'Payment method not found'}), 404
 # Update a Payment Method by ID
@@ -119,7 +133,10 @@ def create_transaction():
 def get_transaction(transaction_id):
     transaction = Transactions.query.get(transaction_id)
     if transaction:
-        return jsonify(transaction.serialize()), 200
+        return jsonify({"transaction_id":transaction.transaction_id,
+                        "user_id":transaction.user_id,
+                        "transaction_amount":transaction.transaction_amount,
+                        "transaction_type":transaction.transaction_type}), 200
     else:
         return jsonify({'message': 'Transaction not found'}), 404
 
