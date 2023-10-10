@@ -4,6 +4,7 @@ from e_commerce.db import db
 #from e_commerce.app import db
 from e_commerce.product.models import Products,ProductVariants,Categories,Manufacturers
 
+# Creates a product row
 def create_product():
     try:
         data = request.json
@@ -24,6 +25,36 @@ def create_product():
         return jsonify({'message': 'Product created successfully'}), 201
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+# Gets all the products
+def get_all_products():
+    try:
+        # Query the Products table to retrieve all rows
+        products = Products.query.all()
+
+        # Serialize the products to JSON
+        product_list = [
+            {
+                "product_id": product.product_id,
+                "name": product.name,
+                "description": product.description,
+                "price": product.price,
+                "stock_quantity": product.stock_quantity,
+                "category_id": product.category_id,
+                "image_url": product.image_url,
+                "manufacturer_id": product.manufacturer_id,
+                "creation_date": product.creation_date,
+                "average_rating": product.average_rating,
+                "total_ratings": product.total_ratings,
+            }
+            for product in products
+        ]
+
+        return jsonify(product_list), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+    
+    
+
     
 def product_to_dict(product):
     return {
@@ -119,6 +150,34 @@ def get_product_variant(variant_id):
     else:
         return jsonify({'message': 'Product variant not found'}), 404
     
+# Retrieve all the products
+def get_all_product_variants():
+    try:
+        # Query the ProductVariants table to retrieve all rows
+        product_variants = ProductVariants.query.all()
+
+        # Serialize the product variants to JSON
+        product_variant_list = [
+            {
+                "variant_id": variant.variant_id,
+                "product_id": variant.product_id,
+                "color": variant.color,
+                "size": variant.size,
+                "material": variant.material,
+                "other_features": variant.other_features,
+                "specification": variant.specification,
+                "image_url": variant.image_url,
+                "price": variant.price,
+                "quantity": variant.quantity,
+                "created_at": variant.created_at.strftime("%Y-%m-%d %H:%M:%S"),  # Format datetime as a string
+            }
+            for variant in product_variants
+        ]
+
+        return jsonify(product_variant_list), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
 # Update a Product Variant
 def update_product_variant(variant_id):
     variant = ProductVariants.query.get(variant_id)
@@ -159,6 +218,23 @@ def create_category():
         db.session.add(new_category)
         db.session.commit()
         return jsonify({'message': 'Category created successfully'}), 201
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+    
+# Retrieve all category
+def get_all_categories():
+    try:
+        # Query the ProductVariants table to retrieve all rows
+        category = Categories.query.all()
+
+        # Serialize the product variants to JSON
+        category_list = [
+            { "category_id":category.category_id,
+    "name":category.name}
+            for category in category_list
+        ]
+
+        return jsonify(category_list), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 

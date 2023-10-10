@@ -3,8 +3,9 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from e_commerce.user.models import Users
 from flask_jwt_extended import create_access_token, get_jwt_identity
 from datetime import datetime
-#from e_commerce.app import db
 from  e_commerce.db import db 
+
+
 def register():
     data = request.get_json()
     hashed_password = generate_password_hash(data['password'], method='sha256')

@@ -10,6 +10,11 @@ product_bp = Blueprint('products', __name__)
 def create_products():
     return view.create_product()
 
+# Gets all the products
+@product_bp.route('/products/retrieve', methods=['GET'])
+def gets_products():
+    return view.get_all_products()
+
 # Retrieve a Product
 @product_bp.route('/products/retrieve/<int:product_id>', methods=['GET'])
 def get_products(product_id):
@@ -31,6 +36,12 @@ def delete_products(product_id):
 @product_bp.route('/products/product-variants', methods=['POST'])
 def create_product_variants():
     return view.create_product_variant()
+
+# Retrieve all Product Variant
+@product_bp.route('/products/product-variants/retrieve>', methods=['GET'])
+def get_all_product_variants():
+    return view.get_all_product_variants()
+
 
 # Retrieve a Product Variant
 @product_bp.route('/products/product-variants/retrieve/<int:variant_id>', methods=['GET'])
@@ -56,7 +67,10 @@ def create_categories():
 @product_bp.route('products/categories/retrieve/<int:category_id>', methods=['GET'])
 def get_categories(category_id):
     return view.get_category(category_id)
-
+# Retrieve all Category      
+@product_bp.route('products/categories/retrieve', methods=['GET'])
+def get_all_categories():
+    return view.get_all_categories()
 # Update a Category by ID
 @product_bp.route('products/categories/update/<int:category_id>', methods=['PUT'])
 def update_category(category_id):

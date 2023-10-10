@@ -9,9 +9,9 @@ def create_review():
     return view.create_review()
 
 # Retrieve all Reviews
-@review_bp.route('/reviews/retrieve', methods=['GET'])
+@review_bp.route('/reviews/retrieve_all', methods=['GET'])
 def get_reviews():
-    return view.get_review()
+    return view.get_reviews()
 
 # Retrieve a Review by ID
 @review_bp.route('/reviews/retrieve/<int:review_id>', methods=['GET'])

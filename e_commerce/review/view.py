@@ -23,7 +23,12 @@ def create_review():
 # Retrieve all Reviews
 def get_reviews():
     reviews = Reviews.query.all()
-    review_list = [review.serialize() for review in reviews]
+    review_list = [{"review_id":review.review_id,
+                        "user_id":review.user_id,
+                        "product_id":review.product_id,
+                        "rating":review.rating,
+                        "review_text":review.review_text,
+                        "review_date":review.review_date} for review in reviews]
     return jsonify(review_list), 200
 
 # Retrieve a Review by ID

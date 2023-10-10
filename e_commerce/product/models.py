@@ -1,5 +1,4 @@
 from e_commerce.db import db
-#from e_commerce.app import db
 from datetime import datetime
 from sqlalchemy import ForeignKey
 

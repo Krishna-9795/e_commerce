@@ -21,14 +21,20 @@ def create_coupon():
 # Retrieve all Coupons
 def get_coupons():
     coupons = Coupons.query.all()
-    coupon_list = [coupon.serialize() for coupon in coupons]
+    coupon_list = [{"coupon_id":coupons.coupon_id,
+                    "code":coupons.code,
+                    "coupon_amount":coupons.coupon_amount,
+                    "coupon_expiration_date":coupons.coupon_expiration_date} for coupons in coupons]
     return jsonify(coupon_list), 200
 
 # Retrieve a Coupon by ID
 def get_coupon(coupon_id):
-    coupon = Coupons.query.get(coupon_id)
-    if coupon:
-        return jsonify(coupon.serialize()), 200
+    coupons = Coupons.query.get(coupon_id)
+    if coupons:
+        return jsonify({"coupon_id":coupons.coupon_id,
+                    "code":coupons.code,
+                    "coupon_amount":coupons.coupon_amount,
+                    "coupon_expiration_date":coupons.coupon_expiration_date}), 200
     else:
         return jsonify({'message': 'Coupon not found'}), 404
 
