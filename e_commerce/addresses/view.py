@@ -8,12 +8,11 @@ def address_data():
     data = request.get_json()
     
     # Check if required fields are present in the JSON data
-    if 'address_id' not in data or 'street_address' not in data:
-        return jsonify({'message': 'Address ID and Street Address are required fields'}), 400
+    if 'user_id' not in data or 'street_address' not in data:
+        return jsonify({'message': 'user ID and Street Address are required fields'}), 400
 
     else:
         new_address = Addresses(
-            address_id=data['address_id'],
             user_id=data['user_id'],
             street_address=data['street_address'],
             city=data.get('city'),

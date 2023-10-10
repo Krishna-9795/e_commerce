@@ -1,9 +1,9 @@
 
 #from e_commerce.utils import admin_token
-from e_commerce.admin import view
-from e_commerce.product import view
-from e_commerce.addresses import view
-from e_commerce.user import view
+
+
+
+
 from e_commerce.carts import view
 from e_commerce.review import view
 from e_commerce.payments import view
@@ -13,6 +13,10 @@ from flask import Blueprint
 
 admin_bp = Blueprint('admin', __name__)
 
+
+
+from e_commerce.admin import view
+
 @admin_bp.route('/admin/register',methods=['POST'])
 def admin_reg():
     return view.admin_register()
@@ -21,10 +25,18 @@ def admin_reg():
 def admin_login():
     return view.admin_login()
 
-@admin_bp.route('/admin/get/' , methods = ['GET'])
-def admin_login():
-    return view.admin_login()
+@admin_bp.route('/admin/get/<int:id>' , methods = ['GET'])
+def get_admin(id):
+    return view.get_admin(id)
+@admin_bp.route('/admin/update/<int:id>' , methods = ['PUT'])
+def update_admin(id):
+    return view.update_admin(id)
+@admin_bp.route('/admin/delete/<int:id>' , methods = ['DELETE'])
+def delete_admin(id):
+    return view.delete_admin(id)
 
+
+from e_commerce.product import view
 
 @admin_bp.route('/admin/product/create',methods=['POST'])
 def admin_prod_create():
@@ -113,6 +125,8 @@ def delete_manufacturer(manufacturer_id):
     return view.delete_manufacturer(manufacturer_id)
 
 
+from e_commerce.addresses import view
+
 @admin_bp.route('/admin/address/register',methods=['POST'])
 #@jwt_required()
 def addresses_data():
@@ -159,7 +173,6 @@ def delete_shipping_addresses(address_id):
     return view.delete_shipping_address(address_id)
 
 
-
 # Create a Cart
 @admin_bp.route('/admin/carts/create', methods=['POST'])
 def create_carts():
@@ -201,7 +214,7 @@ def delete_cart_item(cart_item_id):
     return view.delete_cart_item(cart_item_id)
 
 
-
+from e_commerce.coupons import view
 
 # Create a Coupon
 @admin_bp.route('/admin/coupons/register', methods=['POST'])
@@ -231,6 +244,7 @@ def delete_coupon():
 
 
 
+from e_commerce.orders import view
 
 # Create an Order 
 @admin_bp.route('/admin/orders/register', methods=['POST'])
@@ -272,6 +286,7 @@ def update_order_item(order_item_id):
 def delete_order_item(order_item_id):
     return view.delete_order_item(order_item_id)
 
+from e_commerce.payments import view
 # Create a Payment
 @admin_bp.route('/admin/payments/create', methods=['POST'])
 def create_payment():
@@ -328,7 +343,7 @@ def update_transaction(transaction_id):
 def delete_transaction(transaction_id):
     return view.delete_transaction(transaction_id)
 
-
+from e_commerce.review import view
 # Create a Review
 @admin_bp.route('/admin/reviews/register', methods=['POST'])
 def create_review():
@@ -355,7 +370,7 @@ def delete_review(review_id):
     return view.delete_review(review_id)
 
 
-
+from e_commerce.user import view
 # create a user
 @admin_bp.route('admin/user/register', methods=['POST'])
 def registers():
@@ -381,8 +396,7 @@ def update_user_route(user_id):
 def delete_user_route(user_id):
     return view.delete_user(user_id)
 
-# Retrieve all Category      
-@admin_bp.route('products/categories/retrieve', methods=['GET'])
-def get_all_categories():
-    return view.get_all_categories()
+
+
+
 
