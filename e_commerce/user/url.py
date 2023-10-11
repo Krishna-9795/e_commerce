@@ -1,5 +1,5 @@
 from flask_jwt_extended import jwt_required
-from e_commerce.user import view
+from e_commerce.user.view import register, login, get_user, get_all_users,update_user, delete_user
 from e_commerce.product.view import get_product,get_all_products,get_product_variant
 from e_commerce.addresses.view import address_data,update_address,get_address,delete_address,shipping_address_data,get_ship_address,update_shipping_address,delete_shipping_address
 from e_commerce.carts.view import create_cart,get_cart,update_cart,delete_cart,create_cart_item,get_cart_item,update_cart_item,delete_cart_item
@@ -15,35 +15,35 @@ user_bp = Blueprint('user', __name__)
 # Registering
 @user_bp.route('/user/register', methods=['POST'])
 def registers():
-        return view.register()
+        return register()
 # login
 @user_bp.route('/user/login', methods=['POST'])
 def login_routes():
-    return view.login()
+    return login()
 
 # Getting the user details according to user_id
 @user_bp.route('/user/users/<int:user_id>', methods=['GET'])
 @jwt_required()
 def get_user_route(user_id):
-    return view.get_user(user_id)
+    return get_user(user_id)
 
 # Getting the list of users
 @user_bp.route('/user/user_retrieval', methods=['GET'])
 @jwt_required()
 def get_all_users_route():
-    return view.get_all_users()
+    return get_all_users()
 
 
 # Update
 @user_bp.route('user/update/<int:user_id>', methods=['PUT'])
 @jwt_required()
 def update_user_route(user_id):
-    return view.update_user(user_id)
+    return update_user(user_id)
 # Delete
 @user_bp.route('user/delete/<int:user_id>', methods=['DELETE'])
 @jwt_required()
 def delete_user_route(user_id):
-    return view.delete_user(user_id)
+    return delete_user(user_id)
 
 
 
