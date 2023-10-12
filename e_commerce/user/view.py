@@ -4,7 +4,8 @@ from e_commerce.user.models import Users
 from flask_jwt_extended import create_access_token, get_jwt_identity
 from datetime import datetime
 from  e_commerce.db import db 
-
+from e_commerce.app import app
+import jwt
 
 def register():
     data = request.get_json()
@@ -27,7 +28,9 @@ def login():
     
     user.last_login_date = datetime.utcnow()        # Update last login date
     db.session.commit()
-    access_token = create_access_token(identity=user.user_id)
+    token_data = {'id' : user.user_id}
+    access_token = jwt.encode(token_data , app.config['USER_SECRET_KEY'] , algorithm= 'HS256')
+    #access_token = create_access_token(identity=user.user_id)
     return jsonify({'access_token': access_token},{'message': 'Login successful!', 'user_id': user.user_id}), 200
 
 def get_user(user_id):

@@ -1,12 +1,14 @@
 import jwt
-from e_commerce.app import app
+
 from flask import jsonify,request
 from functools import wraps
 import smtplib
 import random
+from flask_jwt_extended import JWTManager, jwt_required, get_jwt_identity
 
 
 def admin_token(f):
+    from e_commerce.app import app
     @wraps(f)
     def decorated(*args, **kwargs):
         token = None
@@ -31,7 +33,8 @@ def admin_token(f):
 
 
 
-def address_token(f):
+def user_token(f):
+    from e_commerce.app import app
     @wraps(f)
     def decorated(*args, **kwargs):
         token = None
@@ -44,7 +47,7 @@ def address_token(f):
                             "code" : 901 ,
                             "data" : None})
         try:
-            token = jwt.decode(raw_token[1], app.config['ADMIN_SECRET_KEY'] , algorithms='HS256')
+            token = jwt.decode(raw_token[1], app.config['USER_SECRET_KEY'] , algorithms='HS256')
         except:
             return jsonify({"status" : "error" , 
                             "code" : 902 ,
@@ -54,6 +57,8 @@ def address_token(f):
     return decorated
 
 
+
+"""
 def user_otp(receiver_mail):
     s = smtplib.SMTP('smtp.gmail.com', 587)
     s.starttls()
@@ -64,3 +69,9 @@ def user_otp(receiver_mail):
     s.sendmail("test.developer.off@gmail.com", receiver_mail, msg)
     s.quit()
     return(otp)
+"""
+
+
+
+
+

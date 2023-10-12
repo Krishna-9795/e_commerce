@@ -1,14 +1,12 @@
 from e_commerce.admin.models import Admin
-from e_commerce.product.models import Products
 from e_commerce.db import db
 from e_commerce.app import app
 from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
-import e_commerce.config as server
 from flask import request , jsonify
 import jwt
 from flask_bcrypt import Bcrypt  # Import bcrypt from Flask-Bcrypt
-
+from flask_jwt_extended import create_access_token
 bcrypt = Bcrypt(app)
 
 def admin_register():
@@ -17,6 +15,7 @@ def admin_register():
     new_admin = Admin(admin_name=data['admin_name'],email=data['email'], password=hashed_password)
     db.session.add(new_admin)
     db.session.commit()
+
     return jsonify({'message': 'New admin created!'})
 
 
@@ -38,6 +37,7 @@ def admin_login():
                                     'email': data.email}
                     token_data = {'id': data.id}
                     token = jwt.encode(token_data, app.config['ADMIN_SECRET_KEY'], algorithm='HS256')
+
                     return jsonify({
                         "status": "success",
                         "code": "900",
