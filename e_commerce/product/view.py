@@ -27,8 +27,9 @@ def create_product():
 # Gets all the products
 def get_all_products():
     try:
-        # Query the Products table to retrieve all rows
-        products = Products.query.all()
+        search_query = request.args.get('q', type=str)
+        
+        product = Products.query.all()
 
         # Serialize the products to JSON
         product_list = [
@@ -45,18 +46,22 @@ def get_all_products():
                 "average_rating": product.average_rating,
                 "total_ratings": product.total_ratings,
             }
-        for product in products
+        for product in product
+        ]
+        filtered_items = [
+            item for item in product_list if search_query.lower() in item.get('name', '').lower()
         ]
         page = request.args.get('page', type=int, default=1)
         per_page = request.args.get('per_page', type=int, default=10)
         start = (page - 1) * per_page
         end = start + per_page
-        items_for_page = product_list[start:end]
+        items_for_page = filtered_items[start:end]
         response = {
-    'items': items_for_page,
-    'total_items': len(product_list),
-    'current_page': page,
-    'items_per_page': per_page}
+                    'items': items_for_page,
+                    "product":filtered_items,
+                    'total_items': len(filtered_items),
+                    'current_page': page,
+                    'items_per_page': per_page}
 
         return jsonify(response), 200
     except Exception as e:
@@ -162,6 +167,9 @@ def get_product_variant(variant_id):
 # Retrieve all the products
 def get_all_product_variants():
     try:
+        # Get the search query from the request
+        search_query = request.args.get('q', type=str)
+
         # Query the ProductVariants table to retrieve all rows
         product_variants = ProductVariants.query.all()
 
@@ -181,9 +189,25 @@ def get_all_product_variants():
                 "created_at": variant.created_at.strftime("%Y-%m-%d %H:%M:%S"),  # Format datetime as a string
             }
             for variant in product_variants
+            ]
+        filtered_items = [
+            item for item in product_variant_list if search_query.lower() in item.get('color', '').lower()
         ]
-
-        return jsonify(product_variant_list), 200
+        page = request.args.get('page', type=int, default=1)
+        per_page = request.args.get('per_page', type=int, default=10)
+        start = (page - 1) * per_page
+        end = start + per_page
+        items_for_page = filtered_items[start:end]
+        response = {
+            'items': items_for_page,
+            "product_variant":filtered_items,
+            'total_items': len(filtered_items),
+            'current_page': page,
+            'items_per_page': per_page,
+            'search_query': search_query
+        }
+            
+        return jsonify(response), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 

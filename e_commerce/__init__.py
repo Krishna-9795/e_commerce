@@ -2,7 +2,7 @@ from e_commerce.app import app
 from datetime import timedelta
 import sys
 sys.path.append('F:/e_commerce')
-
+import os
 from flask_jwt_extended import JWTManager
 
 app.config['SQLALCHEMY_DATABASE_URI'] ='mysql+pymysql://root:krishna123@localhost/ecommerce'
@@ -11,6 +11,10 @@ app.config['JWT_SECRET_KEY'] = 'Krishna#9795 '
 app.config['ADMIN_SECRET_KEY'] = 'i am an admin'
 app.config['USER_SECRET_KEY'] = 'i am a user'
 app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(hours=2)
+UPLOAD_FOLDER = 'uploaded_images'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+if not os.path.exists(UPLOAD_FOLDER):
+    os.makedirs(UPLOAD_FOLDER)
 app.app_context().push()
 jwt=JWTManager(app)
 

@@ -1,13 +1,14 @@
 from e_commerce.utils import admin_token
 from e_commerce.admin import view 
-from e_commerce.product.view import create_product,get_product,update_product,delete_product,create_product_variant,get_product_variant,update_product_variant,delete_product_variant,create_category,get_category,update_category,delete_category,create_manufacturer,get_manufacturers,get_manufacturer,update_manufacturer,delete_manufacturer,get_all_products
+from e_commerce.product.view import create_product,get_product,get_all_product_variants, update_product,delete_product,create_product_variant,get_product_variant,update_product_variant,delete_product_variant,create_category,get_category,update_category,delete_category,create_manufacturer,get_manufacturers,get_manufacturer,update_manufacturer,delete_manufacturer,get_all_products
 from e_commerce.addresses.view import address_data,update_address,get_address,delete_address,shipping_address_data,get_ship_address,update_shipping_address,delete_shipping_address
 from e_commerce.carts.view import create_cart,get_cart,update_cart,delete_cart,create_cart_item,get_cart_item,update_cart_item,delete_cart_item
 from e_commerce.orders.view import create_order,get_order,update_order,delete_order,create_order_item,get_order_item,update_order_item,delete_order_item
 from e_commerce.coupons.view import create_coupon,get_coupons,get_coupon,update_coupon,delete_coupon
 from e_commerce.payments.view import create_payment,get_payment,update_payment,delete_payment,create_payment_method,get_payment_method,update_payment_method,delete_payment_method,create_transaction,get_transaction,update_transaction,delete_transaction
 from e_commerce.user.view  import register,get_user,get_all_users,update_user,delete_user
-from e_commerce.review.view import create_review,get_review,get_review,update_review,delete_review
+from e_commerce.review.view import create_review,get_review,get_review,update_review,get_reviews,delete_review
+from e_commerce.utils import upload_image,generate_unique_filename
 from flask import Blueprint
 
 admin_bp = Blueprint('admin', __name__)
@@ -15,6 +16,7 @@ admin_bp = Blueprint('admin', __name__)
 
 
 from e_commerce.admin import view
+
 # Register admin
 @admin_bp.route('/admin/register',methods=['POST'])
 def admin_reg():
@@ -44,6 +46,15 @@ def delete_admin(id):
 @admin_token
 def admin_prod_create():
     return create_product()
+
+#uploading product images
+@admin_bp.route('admin/prod/img_uploads', methods=['POST'])
+def upload_image_route():
+    return upload_image()
+def generate_unique_filename_route(filename):
+    return generate_unique_filename()
+
+
 # Get product by id
 @admin_bp.route('admin/products/retrieve/<int:product_id>', methods=['GET'])
 @admin_token
@@ -73,12 +84,16 @@ def delete_products(product_id):
 def create_product_variants():
     return create_product_variant()
 
-
 # Retrieve a Product Variant
 @admin_bp.route('/admin/products/product-variants/retrieve/<int:variant_id>', methods=['GET'])
 @admin_token
 def get_product_variants(variant_id):
     return get_product_variant(variant_id)
+
+# Retrieve all Product Variant
+@admin_bp.route('/admin/product-variants/retrieve>', methods=['GET'])
+def get_all_product_variants_route():
+    return get_all_product_variants()
 
 # Update a Product Variant
 @admin_bp.route('/admin/products/product-variants/update/<int:variant_id>', methods=['PUT'])
@@ -244,7 +259,6 @@ def delete_cart_item_route(cart_item_id):
     return delete_cart_item(cart_item_id)
 
 
-
 # Create a Coupon
 @admin_bp.route('/admin/coupons/register', methods=['POST'])
 @admin_token
@@ -325,7 +339,6 @@ def delete_order_item_route(order_item_id):
     return delete_order_item(order_item_id)
 
 
-
 # Create a Payment
 @admin_bp.route('/admin/payments/create', methods=['POST'])
 @admin_token
@@ -404,7 +417,7 @@ def create_review_route():
 @admin_bp.route('/admin/reviews/retrieve', methods=['GET'])
 @admin_token
 def get_reviews_route():
-    return get_review()
+    return get_reviews()
 
 # Retrieve a Review by ID
 @admin_bp.route('/admin/reviews/retrieve/<int:review_id>', methods=['GET'])
