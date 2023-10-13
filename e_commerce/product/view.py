@@ -1,7 +1,6 @@
 from flask import request, jsonify
 from datetime import datetime
 from e_commerce.db import db
-#from e_commerce.app import db
 from e_commerce.product.models import Products,ProductVariants,Categories,Manufacturers
 
 # Creates a product row
@@ -46,15 +45,24 @@ def get_all_products():
                 "average_rating": product.average_rating,
                 "total_ratings": product.total_ratings,
             }
-            for product in products
+        for product in products
         ]
+        page = request.args.get('page', type=int, default=1)
+        per_page = request.args.get('per_page', type=int, default=10)
+        start = (page - 1) * per_page
+        end = start + per_page
+        items_for_page = product_list[start:end]
+        response = {
+    'items': items_for_page,
+    'total_items': len(product_list),
+    'current_page': page,
+    'items_per_page': per_page}
 
-        return jsonify(product_list), 200
+        return jsonify(response), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 500
     
     
-
     
 def product_to_dict(product):
     return {
@@ -100,6 +108,7 @@ def update_product(product_id):
 
     db.session.commit()
     return jsonify({'message': 'Product updated successfully'}), 200
+
 #delete product record
 def delete_product(product_id):
     product = Products.query.get(product_id)

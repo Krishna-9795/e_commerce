@@ -1,6 +1,6 @@
 from e_commerce.utils import admin_token
 from e_commerce.admin import view 
-from e_commerce.product.view import create_product,get_product,update_product,delete_product,create_product_variant,get_product_variant,update_product_variant,delete_product_variant,create_category,get_category,update_category,delete_category,create_manufacturer,get_manufacturers,get_manufacturer,update_manufacturer,delete_manufacturer
+from e_commerce.product.view import create_product,get_product,update_product,delete_product,create_product_variant,get_product_variant,update_product_variant,delete_product_variant,create_category,get_category,update_category,delete_category,create_manufacturer,get_manufacturers,get_manufacturer,update_manufacturer,delete_manufacturer,get_all_products
 from e_commerce.addresses.view import address_data,update_address,get_address,delete_address,shipping_address_data,get_ship_address,update_shipping_address,delete_shipping_address
 from e_commerce.carts.view import create_cart,get_cart,update_cart,delete_cart,create_cart_item,get_cart_item,update_cart_item,delete_cart_item
 from e_commerce.orders.view import create_order,get_order,update_order,delete_order,create_order_item,get_order_item,update_order_item,delete_order_item
@@ -15,41 +15,45 @@ admin_bp = Blueprint('admin', __name__)
 
 
 from e_commerce.admin import view
-
+# Register admin
 @admin_bp.route('/admin/register',methods=['POST'])
 def admin_reg():
     return view.admin_register()
-
+# admin login
 @admin_bp.route('/admin/login/' , methods = ['POST'])
 def admin_login():
     return view.admin_login()
-
+# Get admin
 @admin_bp.route('/admin/get/<int:id>' , methods = ['GET'])
 @admin_token
 def get_admin(id):
     return view.get_admin(id)
-
+# Admin update
 @admin_bp.route('/admin/update/<int:id>' , methods = ['PUT'])
 @admin_token
 def update_admin(id):
     return view.update_admin(id)
+# Deleting admin
 @admin_bp.route('/admin/delete/<int:id>' , methods = ['DELETE'])
 @admin_token
 def delete_admin(id):
     return view.delete_admin(id)
 
-
-
-
+# Create a product record
 @admin_bp.route('/admin/product/create',methods=['POST'])
 @admin_token
 def admin_prod_create():
     return create_product()
-
+# Get product by id
 @admin_bp.route('admin/products/retrieve/<int:product_id>', methods=['GET'])
 @admin_token
 def get_products(product_id):
     return get_product(product_id)
+# Get all product
+@admin_bp.route('admin/products/retrieve', methods=['GET'])
+@admin_token
+def get_all_product_route():
+    return get_all_products()
 
 # Update a Product
 @admin_bp.route('admin/products/update/<int:product_id>', methods=['PUT'])
@@ -143,12 +147,12 @@ def update_manufacturer_route(manufacturer_id):
 def delete_manufacturer_route(manufacturer_id):
     return delete_manufacturer(manufacturer_id)
 
-
+# Create register
 @admin_bp.route('/admin/address/register',methods=['POST'])
 @admin_token
 def addresses_data():
     return address_data()
-
+# Updating address
 @admin_bp.route('/admin/address/update/<int:address_id>',methods=['PUT']) 
 @admin_token
 def update_addresses(address_id):
@@ -253,7 +257,6 @@ def create_coupon_route():
 def get_coupons_route():
     return get_coupons()
 
-
 # Retrieve a Coupon by ID
 @admin_bp.route('/admin/coupons/retrieve/<int:coupon_id>', methods=['GET'])
 @admin_token
@@ -271,8 +274,6 @@ def update_coupon_route():
 @admin_token
 def delete_coupon_route():
     return delete_coupon()
-
-
 
 
 # Create an Order 
